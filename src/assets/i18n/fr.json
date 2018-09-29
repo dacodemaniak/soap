@@ -1,0 +1,5 @@
+{
+  "barcodeScanner": {
+    "prompt": "Placez le code-barre dans la zone de scan"
+  }
+}
