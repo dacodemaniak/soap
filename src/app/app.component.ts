@@ -1,3 +1,4 @@
+import { LocalDataServiceProvider } from './../providers/local-data-service/local-data-service';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -5,9 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TranslateService } from '@ngx-translate/core';
 
-
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { AccountPage } from './../pages/account/account';
+import { HomePage } from './../pages/home/home';
+import { ListPage } from './../pages/list/list';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,13 +24,15 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private translateService: TranslateService)
+    private translateService: TranslateService,
+    private localDataService: LocalDataServiceProvider)
   {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
+      { title: 'Vous', component: AccountPage},
       { title: 'List', component: ListPage }
     ];
 
@@ -43,11 +46,16 @@ export class MyApp {
       const _userLanguage: string = _navigatorLanguage.split('-')[0];
       const _language = /(de|en|es)/gi.test(_userLanguage) ? _userLanguage : 'fr';
 
-      console.log('Ressources chargées en langue : ' + _language);
-
       this.translateService.setDefaultLang(_language);
       this.translateService.use(_language);
       this.translateService.getTranslation(_language);
+
+      // Initialisation de la base de données locale
+      this.localDataService.init();
+
+      if (!this.localDataService.hasAccount()) {
+        this.rootPage = AccountPage;
+      }
 
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#ed3068');

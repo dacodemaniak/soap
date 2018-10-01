@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { AccountPage } from './../pages/account/account';
 
 /**
  * Modules natifs IONIC
@@ -18,6 +19,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Toast } from '@ionic-native/toast';
 import { BarcodeServiceProvider } from '../providers/barcode-service/barcode-service';
+import { LocalDataServiceProvider } from '../providers/local-data-service/local-data-service';
 
 export function exportTranslateStaticLoader(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -30,7 +32,8 @@ export function exportTranslateStaticLoader(http: HttpClient) {
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    AccountPage
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ export function exportTranslateStaticLoader(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    AccountPage,
     HomePage,
     ListPage
   ],
@@ -59,7 +63,8 @@ export function exportTranslateStaticLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
     Toast,
-    BarcodeServiceProvider
+    BarcodeServiceProvider,
+    LocalDataServiceProvider
   ]
 })
 export class AppModule {}
