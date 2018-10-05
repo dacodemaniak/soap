@@ -5,14 +5,147 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Moi</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>So Appli et Moi</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-bounce padding>
+
+  <ion-row class="app-icon-container">
+    <ion-col text-center>
+      <ion-icon name="people" class="app-icon-zoom"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <form [formGroup]="signupForm">
+    <ion-item>
+      <ion-label floating color="primary">Nom d'utilisateur</ion-label>
+      <ion-input type="text" formControlName="userName" class="form-control" required></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.userName">
+        <div class="error-message" *ngIf="userName.hasError(validation.type) && (userName.dirty || userName.touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <div formGroupName="signupForm.get('matchPassword')">
+      <ion-item>
+        <ion-label floating color="primary">Mot de passe</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.password">
+          <div class="error-message" *ngIf="password.controls.password.hasError(validation.type) && (password.controls.password.dirty || password.controls.password.touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label floating color="primary">Confirmation</ion-label>
+        <ion-input type="password" formControlName="confirmPassword"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.confirmPassword">
+          <div class="error-message" *ngIf="confirmPassword.controls.confirmPassword.hasError(validation.type) && (confirmPassword.controls.confirmPassword.dirty || confirmPassword.controls.confirmPassword.touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <!-- These validations are for the form group -->
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.matchPassword">
+        <div class="error-message" *ngIf="password.hasError(validation.type) && (password.controls.confirmPassword.dirty || password.controls.confirmPassword.touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+
+    <ion-item>
+      <ion-label floating color="primary">Votre nom</ion-label>
+      <ion-input type="text" formControlName="name" class="form-control" required></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.name">
+        <div class="error-message" *ngIf="name.hasError(validation.type) && (name.dirty || name.touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
+      <ion-label floating color="primary">Votre prénom</ion-label>
+      <ion-input type="text" formControlName="forname" class="form-control"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating color="primary">E-Mail</ion-label>
+      <ion-input type="text" formControlName="email" class="form-control" required></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.email">
+        <div class="error-message" *ngIf="email.hasError(validation.type) && (email.dirty || email.touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
+      <ion-label floating color="primary">Téléphone</ion-label>
+      <ion-input type="text" formControlName="phone" class="form-control" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Date de naissance</ion-label>
+      <ion-input formControlName="birthDate"
+          type="date" class="form-control"></ion-input>
+    </ion-item>
+
+    <ion-list radio-group>
+      <ion-list-header>
+        Vous êtes...
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Une femme</ion-label>
+        <ion-radio checked="true" formControlName="gender"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Un homme</ion-label>
+        <ion-radio formControlName="gender"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-row class="sign-in-button-container">
+      <ion-col text-center>
+        <button ion-button block color="secondary"
+            [disabled]="!signupForm.valid" (click)="onSignIn()">
+          Sign in
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button clear color="light"
+            (click)="onForgotPassword()">
+          Mot de passe oublié ?
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+
 
 </ion-content>

@@ -16,6 +16,11 @@ export interface AccountInterface {
   id: string;
 
   /**
+   * @var string userName Nom d'utilisateur
+   */
+  userName: string;
+
+  /**
    * Nom du compte
    */
   name: string;
@@ -58,6 +63,6 @@ export interface AccountInterface {
   /**
    * Points acquis durant la vie de l'application
    */
-  credits: number;
+  credits?: number;
 
 }

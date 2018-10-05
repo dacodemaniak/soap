@@ -60,6 +60,24 @@ export class LocalDataServiceProvider {
     return this._isAccountCreated;
   }
 
+  public getAccount(): Promise<AccountInterface> {
+    return new Promise((resolve) => {
+      if (this._account) {
+        resolve(this._account);
+      } else {
+        resolve({
+          id: "account",
+          userName: "",
+          name: "",
+          forname: "",
+          email: "",
+          phone: "",
+          secureKey: "",
+          gender: 0
+        });
+      }
+    })
+  }
   /**
    * Définit s'il existe un compte dans la base de données locale
    */

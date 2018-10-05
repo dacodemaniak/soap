@@ -1,5 +1,23 @@
 {
   "barcodeScanner": {
     "prompt": "Placez le code-barre dans la zone de scan"
+  },
+  "account": {
+    "userName": {
+      "required": "Vous devez choisir un pseudo",
+      "minLength": "Votre pseudo doit avoir au moins 5 caractères",
+      "maxLength": "Votre pseudo ne peut pas dépasser 25 caractères",
+      "pattern": "Votre pseudo ne peut contenir que des lettres et des chiffres",
+      "valid": "Ce pseudo est déjà utilisé par un autre utilisateur"
+    },
+    "name": {
+      "required": "Vous devez saisir votre nom"
+    },
+    "password": {
+      "required": "Vous devez définir un mot de passe"
+    },
+    "matchPassword": {
+      "equal": "Les mots de passe saisis sont différents"
+    }
   }
 }
