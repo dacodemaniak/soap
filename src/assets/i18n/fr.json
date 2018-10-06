@@ -3,6 +3,7 @@
     "prompt": "Placez le code-barre dans la zone de scan"
   },
   "account": {
+    "doCreate": "Créez votre compte pour pouvoir accéder à vos stocks de partout",
     "userName": {
       "required": "Vous devez choisir un pseudo",
       "minLength": "Votre pseudo doit avoir au moins 5 caractères",

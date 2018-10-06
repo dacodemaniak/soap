@@ -16,7 +16,6 @@ import { AccountPage } from './../pages/account/account';
  */
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Toast } from '@ionic-native/toast';
 import { BarcodeServiceProvider } from '../providers/barcode-service/barcode-service';

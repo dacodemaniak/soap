@@ -1,28 +1,24 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export class PasswordValidator {
-  public static areEqual(formGroup: FormGroup) {
-    let val: any;
-    let valid: boolean = true;
-
-    for (let key in formGroup.controls) {
-      if (formGroup.controls.hasOwnProperty(key)) {
-        let control: FormControl = <FormControl>formGroup.controls[key];
-        if (val === undefined) {
-          val = control.value;
-        } else {
-          if (val !== control.value) {
-            valid = false;
-            break;
-          }
+  /**
+   * Définition du validateur de dates
+   * @param passwordField Mot de passe
+   * @param confirmPasswordField Confirmation du mot de passe
+   * @param validatorField Contrôle sur lequel le validateur est exécuté
+   */
+  public static areEqual(
+      passwordField: string,
+      confirmPasswordField: string,
+      validatorField: { [key: string]: boolean }): ValidatorFn
+  {
+    return (c: AbstractControl): { [key: string]: boolean } | null => {
+        const password = c.get(passwordField).value;
+        const confirmPassword = c.get(confirmPasswordField).value;
+        if ((password !== null && confirmPassword !== null) && password !== confirmPassword) {
+            return validatorField;
         }
-      }
-    }
-
-    if (valid) {
-      return null;
-    }
-
-    return {areEqual: true};
-  }
+        return null;
+    };
+}
 }

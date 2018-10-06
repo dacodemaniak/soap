@@ -22,7 +22,7 @@
     </ion-col>
   </ion-row>
 
-  <form [formGroup]="signupForm">
+  <form [formGroup]="signupForm" (submit)="onSignIn()">
     <ion-item>
       <ion-label floating color="primary">Nom d'utilisateur</ion-label>
       <ion-input type="text" formControlName="userName" class="form-control" required></ion-input>
@@ -35,17 +35,16 @@
       </ng-container>
     </div>
 
-    <div formGroupName="signupForm.get('matchPassword')">
-      <ion-item>
-        <ion-label floating color="primary">Mot de passe</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validationMessages.password">
-          <div class="error-message" *ngIf="password.controls.password.hasError(validation.type) && (password.controls.password.dirty || password.controls.password.touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
+    <ion-item>
+      <ion-label floating color="primary">Mot de passe</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.password">
+        <div class="error-message" *ngIf="password.hasError(validation.type) && (password.dirty || password.touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
       </div>
 
       <ion-item>
@@ -54,16 +53,15 @@
       </ion-item>
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.confirmPassword">
-          <div class="error-message" *ngIf="confirmPassword.controls.confirmPassword.hasError(validation.type) && (confirmPassword.controls.confirmPassword.dirty || confirmPassword.controls.confirmPassword.touched)">
+          <div class="error-message" *ngIf="confirmPassword.hasError(validation.type) && (confirmPassword.dirty || confirmPassword.touched)">
             {{ validation.message }}
           </div>
         </ng-container>
       </div>
-    </div>
     <!-- These validations are for the form group -->
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.matchPassword">
-        <div class="error-message" *ngIf="password.hasError(validation.type) && (password.controls.confirmPassword.dirty || password.controls.confirmPassword.touched)">
+        <div class="error-message" *ngIf="password.hasError(validation.type) && (confirmPassword.dirty || confirmPassword.touched)">
           {{ validation.message }}
         </div>
       </ng-container>
@@ -110,19 +108,19 @@
           type="date" class="form-control"></ion-input>
     </ion-item>
 
-    <ion-list radio-group>
+    <ion-list radio-group formControlName="gender">
       <ion-list-header>
         Vous êtes...
       </ion-list-header>
 
       <ion-item>
         <ion-label>Une femme</ion-label>
-        <ion-radio checked="true" formControlName="gender"></ion-radio>
+        <ion-radio checked="isFemale()" value="0"></ion-radio>
       </ion-item>
 
       <ion-item>
         <ion-label>Un homme</ion-label>
-        <ion-radio formControlName="gender"></ion-radio>
+        <ion-radio checked="!isFemale()" value="1"></ion-radio>
       </ion-item>
     </ion-list>
 
@@ -130,7 +128,7 @@
     <ion-row class="sign-in-button-container">
       <ion-col text-center>
         <button ion-button block color="secondary"
-            [disabled]="!signupForm.valid" (click)="onSignIn()">
+            [disabled]="signupForm.invalid">
           Sign in
         </button>
       </ion-col>
@@ -147,5 +145,7 @@
 
   </form>
 
+  <!-- Pour contrôle -->
+  {{ signupForm.value | json }}
 
 </ion-content>
