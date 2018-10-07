@@ -8,6 +8,9 @@ import { AccountInterface } from './../../shared/interfaces/account-interface';
 import { LocalDataServiceProvider } from './../../providers/local-data-service/local-data-service';
 import { TranslateService } from '@ngx-translate/core';
 import { PasswordValidator } from './../../shared/validators/password.validator';
+import { UserNameValidator } from '../../shared/validators/username.validator';
+
+import { RemoteDataServiceProvider } from './../../providers/remote-data-service/remote-data-service';
 
 /**
  * Generated class for the AccountPage page.
@@ -42,6 +45,7 @@ export class AccountPage {
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     private localDataService: LocalDataServiceProvider,
+    private remoteDataService: RemoteDataServiceProvider,
     private translateService: TranslateService,
     private toast: Toast) {
       this._doForm();
@@ -115,6 +119,7 @@ export class AccountPage {
            this._account.userName,
           [
             Validators.required,
+            UserNameValidator.alreadyExists(this.remoteDataService),
             Validators.minLength(5),
             Validators.maxLength(25),
             Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')

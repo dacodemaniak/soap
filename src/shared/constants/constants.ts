@@ -1,4 +1,5 @@
 import { BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
+import { isDevMode } from '@angular/core';
 
 /**
  * @name Constants Définition des constantes de l'application
@@ -6,6 +7,15 @@ import { BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
  * @package shared/constants
  * @version 1.0.0
  */
+export class Constants {
+  private static get _DEV_MODE(): boolean {
+    return isDevMode() ? true : false;
+  }
+
+  public static get _API_ROOT(): string {
+    return Constants._DEV_MODE ? 'http://192.168.1.99:3000/' : 'https://apiv2.soappli.com/';
+  }
+}
 
   export const _SCAN_OPTIONS: BarcodeScannerOptions =
     {

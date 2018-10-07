@@ -20,6 +20,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Toast } from '@ionic-native/toast';
 import { BarcodeServiceProvider } from '../providers/barcode-service/barcode-service';
 import { LocalDataServiceProvider } from '../providers/local-data-service/local-data-service';
+import { RemoteDataServiceProvider } from '../providers/remote-data-service/remote-data-service';
 
 export function exportTranslateStaticLoader(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -65,7 +66,8 @@ export function exportTranslateStaticLoader(http: HttpClient) {
     BarcodeScanner,
     Toast,
     BarcodeServiceProvider,
-    LocalDataServiceProvider
+    LocalDataServiceProvider,
+    RemoteDataServiceProvider
   ]
 })
 export class AppModule {}
