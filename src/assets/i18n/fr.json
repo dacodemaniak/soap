@@ -24,7 +24,7 @@
     "matchPassword": {
       "equal": "Les mots de passe saisis sont différents"
     },
-    "form": {
+    "forms": {
       "pseudo": "Choisissez un pseudo",
       "password": "Choisissez un mot de passe",
       "confirm": "Confirmation du mot de passe",
