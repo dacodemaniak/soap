@@ -23,6 +23,21 @@
     },
     "matchPassword": {
       "equal": "Les mots de passe saisis sont différents"
+    },
+    "form": {
+      "pseudo": "Choisissez un pseudo",
+      "password": "Choisissez un mot de passe",
+      "confirm": "Confirmation du mot de passe",
+      "name": "Votre nom",
+      "forname": "Votre prénom",
+      "email": "Votre adresse e-mail",
+      "phone": "Votre n° de téléphone",
+      "birthDate": "Votre date de naissance",
+      "gender": "Vous êtes...",
+      "female": "Une femme",
+      "male": "Un homme",
+      "signin": "Créez votre compte",
+      "decline": "Non merci, pas maintenant"
     }
   }
 }

@@ -24,7 +24,7 @@
 
   <form [formGroup]="signupForm" (submit)="onSignIn()">
     <ion-item>
-      <ion-label floating color="primary">Nom d'utilisateur</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.pseudo' | translate }}</ion-label>
       <ion-input type="text" formControlName="userName" class="form-control" required></ion-input>
     </ion-item>
     <div class="validation-errors">
@@ -36,7 +36,7 @@
     </div>
 
     <ion-item>
-      <ion-label floating color="primary">Mot de passe</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.password' | translate }}</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
     <div class="validation-errors">
@@ -48,7 +48,7 @@
       </div>
 
       <ion-item>
-        <ion-label floating color="primary">Confirmation</ion-label>
+        <ion-label floating color="primary">{{ 'account.forms.confirm' | translate }}</ion-label>
         <ion-input type="password" formControlName="confirmPassword"></ion-input>
       </ion-item>
       <div class="validation-errors">
@@ -69,7 +69,7 @@
 
 
     <ion-item>
-      <ion-label floating color="primary">Votre nom</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.name' | translate }}</ion-label>
       <ion-input type="text" formControlName="name" class="form-control" required></ion-input>
     </ion-item>
     <div class="validation-errors">
@@ -81,12 +81,12 @@
     </div>
 
     <ion-item>
-      <ion-label floating color="primary">Votre prénom</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.forname' | translate }}</ion-label>
       <ion-input type="text" formControlName="forname" class="form-control"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label floating color="primary">E-Mail</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.email' | translate }}</ion-label>
       <ion-input type="text" formControlName="email" class="form-control" required></ion-input>
     </ion-item>
     <div class="validation-errors">
@@ -98,28 +98,28 @@
     </div>
 
     <ion-item>
-      <ion-label floating color="primary">Téléphone</ion-label>
+      <ion-label floating color="primary">{{ 'account.forms.phone' | translate }}</ion-label>
       <ion-input type="text" formControlName="phone" class="form-control" ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Date de naissance</ion-label>
+      <ion-label floating>{{ 'account.forms.birthDate' | translate }}</ion-label>
       <ion-input formControlName="birthDate"
           type="date" class="form-control"></ion-input>
     </ion-item>
 
     <ion-list radio-group formControlName="gender">
       <ion-list-header>
-        Vous êtes...
+        {{ 'account.forms.gender' | translate }}
       </ion-list-header>
 
       <ion-item>
-        <ion-label>Une femme</ion-label>
+        <ion-label>{{ 'account.forms.female' | translate }}</ion-label>
         <ion-radio checked="isFemale()" value="0"></ion-radio>
       </ion-item>
 
       <ion-item>
-        <ion-label>Un homme</ion-label>
+        <ion-label>{{ 'account.forms.male' | translate }}</ion-label>
         <ion-radio checked="!isFemale()" value="1"></ion-radio>
       </ion-item>
     </ion-list>
@@ -129,7 +129,16 @@
       <ion-col text-center>
         <button ion-button block color="secondary"
             [disabled]="signupForm.invalid">
-          Sign in
+            {{ 'account.forms.signin' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="decline-button-container">
+      <ion-col text-center>
+        <button ion-button block color="light"
+            type="button" (click)="decline()">
+            {{ 'account.forms.decline' | translate }}
         </button>
       </ion-col>
     </ion-row>

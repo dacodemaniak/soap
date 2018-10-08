@@ -1,3 +1,4 @@
+import { HomePage } from './../home/home';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -48,10 +49,6 @@ export class AccountPage {
     private remoteDataService: RemoteDataServiceProvider,
     private translateService: TranslateService,
     private toast: Toast) {
-      this.translateService.getTranslation('fr').subscribe((translations) => {
-        this._translations = translations;
-      });
-
       this._doForm();
   }
 
@@ -65,6 +62,10 @@ export class AccountPage {
 
   ionViewWillEnter() {
     this._setValidationMessages();
+  }
+
+  public decline(): void {
+    this.navCtrl.push(HomePage);
   }
 
   public isFemale(): boolean {
