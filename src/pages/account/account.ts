@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Toast } from '@ionic-native/toast';
 
 import { AccountInterface } from './../../shared/interfaces/account-interface';
@@ -48,6 +48,10 @@ export class AccountPage {
     private remoteDataService: RemoteDataServiceProvider,
     private translateService: TranslateService,
     private toast: Toast) {
+      this.translateService.getTranslation('fr').subscribe((translations) => {
+        this._translations = translations;
+      });
+
       this._doForm();
   }
 
@@ -72,16 +76,23 @@ export class AccountPage {
   public onForgotPassword() {}
 
   private _setValidationMessages() {
+
     this.validationMessages = {
       'userName': [
-          { type: 'required', message: this.translateService.instant('account.username.required') },
-          { type: 'minlength', message: this.translateService.instant('account.username.minLength') },
-          { type: 'maxlength', message: this.translateService.instant('account.username.maxLength') },
-          { type: 'pattern', message: this.translateService.instant('account.username.pattern') },
-          { type: 'validUsername', message: this.translateService.instant('account.username.valid') }
+          {
+            type: 'required',
+            message: this.translateService.instant('account.userName.required') },
+          { type: 'minlength', message: this.translateService.instant('account.userName.minLength') },
+          { type: 'maxlength', message: this.translateService.instant('account.userName.maxLength') },
+          { type: 'pattern', message: this.translateService.instant('account.userName.pattern') },
+          { type: 'alreadyExists', message: this.translateService.instant('account.userName.valid') }
         ],
         'name': [
           { type: 'required', message: this.translateService.instant('account.name.required') }
+        ],
+        'email': [
+          { type: 'required', message: this.translateService.instant('account.email.required') },
+          { type: 'pattern', message: this.translateService.instant('account.email.pattern') }
         ],
         'password': [
           {type: 'required', message: this.translateService.instant('account.password.required')},
@@ -104,13 +115,16 @@ export class AccountPage {
 
       // Génère un message toast si le compte n'a pas encore été créé
       if (this._account.userName === '') {
-        this.toast.show(
-          this.translateService.instant('account.doCreate'),
-          '5000',
-          'center'
-        ).subscribe((toast) => {
+        this.translateService.get('account.doCreate').subscribe((translation: string)  => {
+          this.toast.show(
+            translation,
+            '5000',
+            'center'
+          ).subscribe((toast) => {
 
+          });
         });
+
       }
 
       // Génère le formulaire
@@ -136,7 +150,7 @@ export class AccountPage {
            this._account.email,
            [
              Validators.required,
-             Validators.email
+             Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
            ]
         ],
          phone: [

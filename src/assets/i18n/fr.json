@@ -14,6 +14,10 @@
     "name": {
       "required": "Vous devez saisir votre nom"
     },
+    "email": {
+      "required": "Vous devez saisir une adresse e-mail",
+      "pattern": "L'e-mail saisie semble ne pas être une adresse e-mail valide"
+    },
     "password": {
       "required": "Vous devez définir un mot de passe"
     },

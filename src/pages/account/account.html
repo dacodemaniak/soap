@@ -134,18 +134,10 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col text-center>
-        <button ion-button clear color="light"
-            (click)="onForgotPassword()">
-          Mot de passe oublié ?
-        </button>
-      </ion-col>
-    </ion-row>
-
   </form>
 
   <!-- Pour contrôle -->
   {{ signupForm.value | json }}
+  {{ signupForm.valid | json }}
 
 </ion-content>
