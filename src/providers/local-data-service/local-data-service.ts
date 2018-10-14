@@ -66,18 +66,39 @@ export class LocalDataServiceProvider {
         resolve(this._account);
       } else {
         resolve({
+          mongoId: '',
           id: "account",
           userName: "",
           name: "",
           forname: "",
           email: "",
           phone: "",
-          secureKey: "",
+          salt: "",
           gender: 0
         });
       }
     })
   }
+
+  public setAccount(remoteDatas: any): void {
+    const _account: AccountInterface = {
+      mongoId: remoteDatas.id,
+      id: 'account',
+      userName: remoteDatas.userName,
+      name: remoteDatas.name,
+      forname: remoteDatas.forname,
+      email: remoteDatas.email,
+      phone: remoteDatas.phone,
+      salt: remoteDatas.salt,
+      gender: remoteDatas.gender
+    }
+
+    this._localDB.put(_account).then(() => {
+      this._isAccountCreated = true;
+      this._account = _account;
+    })
+  }
+
   /**
    * Définit s'il existe un compte dans la base de données locale
    */

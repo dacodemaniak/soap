@@ -1,15 +1,28 @@
 {
+  "global": {
+    "cancel": "Annuler"
+  },
   "barcodeScanner": {
     "prompt": "Placez le code-barre dans la zone de scan"
   },
+  "home": {
+    "sign" : {
+      "title": "SoAppli! ne vous connaît pas !",
+      "msg": "Il semble que nous ne soyez pas encore connu.\nAfin de profiter de toutes les possibilités de SoAppli! identifiez-vous ou créez un compte...",
+      "signin": "J'ai déjà un compte...",
+      "signup": "Okay, je veux un compte"
+    }
+  },
   "account": {
+    "title": "Créez un compte SoAppli!",
     "doCreate": "Créez votre compte pour pouvoir accéder à vos stocks de partout",
+    "welcome": "Bienvenue sur SoAppli! Gérez efficacement, faites des économies et soignez votre planète",
     "userName": {
       "required": "Vous devez choisir un pseudo",
       "minLength": "Votre pseudo doit avoir au moins 5 caractères",
       "maxLength": "Votre pseudo ne peut pas dépasser 25 caractères",
-      "pattern": "Votre pseudo ne peut contenir que des lettres et des chiffres",
-      "valid": "Ce pseudo est déjà utilisé par un autre utilisateur"
+      "pattern": "Votre pseudo doit être composé de lettres et d'au moins un chiffre",
+      "alreadyExists": "Ce pseudo est déjà utilisé par un autre utilisateur"
     },
     "name": {
       "required": "Vous devez saisir votre nom"
@@ -19,10 +32,15 @@
       "pattern": "L'e-mail saisie semble ne pas être une adresse e-mail valide"
     },
     "password": {
-      "required": "Vous devez définir un mot de passe"
+      "required": "Vous devez définir un mot de passe",
+      "areEqual": "Les mots de passe saisis sont différents"
+    },
+    "confirmPassword": {
+      "required": "Veuillez confirmer votre mot de passe",
+      "areEqual": "Les mots de passe saisis sont différents"
     },
     "matchPassword": {
-      "equal": "Les mots de passe saisis sont différents"
+      "password": "Les mots de passe saisis sont différents"
     },
     "forms": {
       "pseudo": "Choisissez un pseudo",

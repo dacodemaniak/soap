@@ -3,22 +3,24 @@ import { RemoteDataServiceProvider } from './../../providers/remote-data-service
 
 export class UserNameValidator {
   public static alreadyExists(
-    remoteDataService: RemoteDataServiceProvider
+    remoteDataService: RemoteDataServiceProvider,
+    validatorField: { [key: string]: boolean }
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value !== undefined) {
+      if (control.value !== undefined || control.value !== null) {
         remoteDataService.checkPseudo(control.value)
           .subscribe((response: any) => {
-            console.log('Statut : ' + response.headers.get('status'));
-            if (response.headers.get('status') === '200') {
+            if (response.status === 200) {
               return null;
+            } else {
+              return validatorField
             }
-            return {'alreadyExists': true}
+
           }, (error) => {
-            return {'alreadyExists': true}
+            return validatorField;
           });
       }
-      return null;
+      return validatorField;
     }
   }
 }

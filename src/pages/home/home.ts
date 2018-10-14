@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, ModalController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
+import { LocalDataServiceProvider } from './../../providers/local-data-service/local-data-service';
 import { BarcodeServiceProvider } from './../../providers/barcode-service/barcode-service';
+
+import { AccountPage } from './../account/account';
 
 @Component({
   selector: 'page-home',
@@ -11,9 +15,47 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    private translateService: TranslateService,
+    private localDataService: LocalDataServiceProvider,
     private barcodeService: BarcodeServiceProvider)
   {
 
+  }
+
+  /**
+   * Après le chargement de la page...
+   */
+  public ionViewDidLoad(){
+    if (!this.localDataService.hasAccount()) {
+      // Affichage du dialogue de choix : Signin / Signup
+      const SignAlert = this.alertCtrl.create({
+        title: this.translateService.instant('home.sign.title'),
+        message: this.translateService.instant('home.sign.msg'),
+        buttons: [
+          {
+            text: this.translateService.instant('home.sign.signin'),
+            handler: () => {
+              // Go to login page
+            }
+          },
+          {
+            text: this.translateService.instant('home.sign.signup'),
+            handler: () => {
+              // Go to account page
+              const accountModal = this.modalCtrl.create(
+                AccountPage,
+                {}
+              );
+              accountModal.present();
+            }
+          }
+        ]
+
+      });
+      SignAlert.present();
+    }
   }
 
   public scan(): void {

@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, Injector, APP_INITIALIZER } from '@angular/core';
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -27,6 +28,29 @@ export function exportTranslateStaticLoader(http: HttpClient) {
     http,
     './assets/i18n/', '.json'
   )
+}
+
+export function appInitializerFactory(
+  translateService: TranslateService,
+  injector: Injector
+) {
+  return () => new Promise<any>((resolve: any) => {
+    const localizationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    localizationInitialized.then(() => {
+      // Gestion de la langue par défaut
+      const _navigatorLanguage: string = window.navigator.language;
+      const _userLanguage: string = _navigatorLanguage.split('-')[0];
+      const _language = /(fr|de|en|es)/gi.test(_userLanguage) ? _userLanguage : 'fr';
+      translateService.setDefaultLang(_language);
+      translateService.use(_language).subscribe(() => {
+        console.info(`Traductions  ${_language} chargées avec succès`);
+      }, (error) => {
+        console.error(`Erreur lors du chargement des traductions  ${_language}`);
+      }, () => {
+        resolve(null)
+      });
+    })
+  })
 }
 
 @NgModule({
@@ -62,6 +86,15 @@ export function exportTranslateStaticLoader(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [
+        TranslateService,
+        Injector
+      ],
+      multi: true
+    },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
     Toast,
@@ -70,6 +103,7 @@ export function exportTranslateStaticLoader(http: HttpClient) {
     RemoteDataServiceProvider
   ]
 })
+
 export class AppModule {}
 
 

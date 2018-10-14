@@ -2,7 +2,7 @@ import { HomePage } from './../home/home';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { Toast } from '@ionic-native/toast';
 
 import { AccountInterface } from './../../shared/interfaces/account-interface';
@@ -41,8 +41,14 @@ export class AccountPage {
    */
   private _account: AccountInterface;
 
+  /**
+   * Contrôle l'affichage du spinner
+   */
+  public running: boolean = false;
+
   constructor(
     public navCtrl: NavController,
+    private viewCtrl: ViewController,
     public navParams: NavParams,
     private formBuilder: FormBuilder,
     private localDataService: LocalDataServiceProvider,
@@ -64,17 +70,43 @@ export class AccountPage {
     this._setValidationMessages();
   }
 
+  /**
+   * Ferme la boîte modale
+   */
   public decline(): void {
-    this.navCtrl.push(HomePage);
+    this.viewCtrl.dismiss();
   }
 
   public isFemale(): boolean {
     return this._account.gender === 0;
   }
 
-  public onSignIn() {}
+  /**
+   * Crée un compte à partir des données du formulaire
+   */
+  public onSignIn() {
+    this.running = true;
+    this.remoteDataService.signup(this.signupForm.value).subscribe((datas: any) => {
+      // Met à jour les données locales
+      this.localDataService.setAccount(datas);
+      this.running = false;
+      this.viewCtrl.dismiss();
+      // Affiche le toast de bienvenue
+      this.translateService.get('account.welcome').subscribe((translation: string)  => {
+        this.toast.show(
+          translation,
+          '5000',
+          'center'
+        ).subscribe((toast) => {
+          // NOOP
+        });
+      });
+    })
+  }
 
-  public onForgotPassword() {}
+  public dismiss() {
+    this.viewCtrl.dismiss();
+  }
 
   private _setValidationMessages() {
 
@@ -86,7 +118,7 @@ export class AccountPage {
           { type: 'minlength', message: this.translateService.instant('account.userName.minLength') },
           { type: 'maxlength', message: this.translateService.instant('account.userName.maxLength') },
           { type: 'pattern', message: this.translateService.instant('account.userName.pattern') },
-          { type: 'alreadyExists', message: this.translateService.instant('account.userName.valid') }
+          { type: 'alreadyExists', message: this.translateService.instant('account.userName.alreadyExists') }
         ],
         'name': [
           { type: 'required', message: this.translateService.instant('account.name.required') }
@@ -134,7 +166,7 @@ export class AccountPage {
            this._account.userName,
           [
             Validators.required,
-            UserNameValidator.alreadyExists(this.remoteDataService),
+            UserNameValidator.alreadyExists(this.remoteDataService, {alreadyExists: true}),
             Validators.minLength(5),
             Validators.maxLength(25),
             Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
@@ -167,7 +199,7 @@ export class AccountPage {
            ]
          ],
           password: [
-            this._account.secureKey,
+            '',
             [
               Validators.minLength(8),
               Validators.required,
@@ -175,7 +207,7 @@ export class AccountPage {
               ]
             ],
             confirmPassword: [
-              this._account.secureKey,
+              '',
               [
                 Validators.required
               ]
@@ -183,7 +215,7 @@ export class AccountPage {
          // @todo Ajouter la composition de contrôle des mots de passe
       },
       { validator: Validators.compose([
-          PasswordValidator.areEqual('password', 'confirmPassword', { 'password': true })
+          PasswordValidator.areEqual('password', 'confirmPassword', { 'areEqual': false })
         ])
       })
     })

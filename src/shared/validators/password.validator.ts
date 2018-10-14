@@ -15,7 +15,6 @@ export class PasswordValidator {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
         const password = c.get(passwordField).value;
         const confirmPassword = c.get(confirmPasswordField).value;
-        console.warn('Compare : ' + password + ' et ' + confirmPassword);
         if ((password !== null && confirmPassword !== null) && password !== confirmPassword) {
             return validatorField;
         }

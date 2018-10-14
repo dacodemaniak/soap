@@ -11,6 +11,12 @@ import { FamilyCompositionInterface } from './family-composition-interface';
 export interface AccountInterface {
 
   /**
+   * Identifiant issu de la base MongoDB
+   * @var string
+   */
+  mongoId: string;
+
+  /**
    * @var string id Identifiant de la ligne par défaut 'account'
    */
   id: string;
@@ -36,9 +42,9 @@ export interface AccountInterface {
   email: string;
 
   /**
-   * Mot de passe
+   * Sel de renforcement du mot de passe
    */
-  secureKey: string;
+  salt: string;
 
   /**
    * Numéro de téléphone
