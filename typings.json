@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "pouchdb": "registry:dt/pouchdb#5.4.4+20160916155957",
+    "pouchdb-core": "registry:dt/pouchdb-core#6.0.7+20170203181939"
+  }
+}
