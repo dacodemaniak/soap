@@ -33,14 +33,13 @@
     },
     "password": {
       "required": "Vous devez définir un mot de passe",
-      "areEqual": "Les mots de passe saisis sont différents"
+      "pattern": "Le mot de passe doit être composé de lettres, de chiffres et d'au moins une majuscule"
     },
     "confirmPassword": {
-      "required": "Veuillez confirmer votre mot de passe",
-      "areEqual": "Les mots de passe saisis sont différents"
+      "required": "Veuillez confirmer votre mot de passe"
     },
     "matchPassword": {
-      "password": "Les mots de passe saisis sont différents"
+      "areEqual": "Les mots de passe saisis sont différents"
     },
     "forms": {
       "pseudo": "Choisissez un pseudo",

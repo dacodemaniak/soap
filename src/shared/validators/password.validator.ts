@@ -5,7 +5,7 @@ export class PasswordValidator {
    * Définition du validateur de dates
    * @param passwordField Mot de passe
    * @param confirmPasswordField Confirmation du mot de passe
-   * @param validatorField Contrôle sur lequel le validateur est exécuté
+   * @param validatorField Fonction de validation à retourner
    */
   public static areEqual(
       passwordField: string,

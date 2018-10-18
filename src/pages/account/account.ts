@@ -54,6 +54,7 @@ export class AccountPage {
     private localDataService: LocalDataServiceProvider,
     private remoteDataService: RemoteDataServiceProvider,
     private translateService: TranslateService,
+    private userNameValidator: UserNameValidator,
     private toast: Toast) {
       this._doForm();
   }
@@ -128,10 +129,11 @@ export class AccountPage {
           { type: 'pattern', message: this.translateService.instant('account.email.pattern') }
         ],
         'password': [
-          {type: 'required', message: this.translateService.instant('account.password.required')},
+          { type: 'required', message: this.translateService.instant('account.password.required')},
+          { type: 'pattern', message: this.translateService.instant('account.password.pattern') }
         ],
         'confirmPassword': [
-          {type: 'required', message: this.translateService.instant('account.confirmPassword.required')}
+          { type: 'required', message: this.translateService.instant('account.confirmPassword.required')}
         ],
         'matchPassword': [
           {type: 'areEqual', message: this.translateService.instant('account.matchPassword.equal')}
@@ -164,13 +166,14 @@ export class AccountPage {
       this.signupForm = this.formBuilder.group({
          userName: [
            this._account.userName,
-          [
-            Validators.required,
-            UserNameValidator.alreadyExists(this.remoteDataService, {alreadyExists: true}),
-            Validators.minLength(5),
-            Validators.maxLength(25),
-            Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-          ]
+           Validators.compose(
+            [
+              Validators.required,
+              Validators.minLength(5),
+              Validators.maxLength(25),
+              Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+            ]),
+            this.userNameValidator.alreadyExists.bind(this.userNameValidator)
         ],
          name: [
            this._account.name,
@@ -204,9 +207,9 @@ export class AccountPage {
               Validators.minLength(8),
               Validators.required,
               Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-              ]
-            ],
-            confirmPassword: [
+            ]
+          ],
+          confirmPassword: [
               '',
               [
                 Validators.required
