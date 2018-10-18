@@ -50,7 +50,11 @@ export class LocalDataServiceProvider {
    * Initialise les données locales
    */
   public init(): void {
-    this._getAccount();
+    this._getAccount().then((data) => {
+      if (data !== false) {
+        this._account = data;
+      }
+    });
   }
 
   /**
@@ -100,18 +104,25 @@ export class LocalDataServiceProvider {
   }
 
   /**
-   * Définit s'il existe un compte dans la base de données locale
+   * Récupère un compte de la base locale
    */
-  private _getAccount(): void {
-    this._localDB.get(
-      'account',
-      {include_docs: true}
-    ).then((doc) => {
-      if (doc) {
-        this._isAccountCreated = true;
-        // Hydrate le compte courant
-        Object.assign(this._account, doc);
-      }
-    })
+  private _getAccount(): Promise<any> {
+    let _account: AccountInterface;
+
+    return new Promise((resolve) => {
+      this._localDB.get(
+        'account',
+        {include_docs: true}
+      ).then((doc) => {
+        if (doc) {
+          this._isAccountCreated = true;
+          // Hydrate le compte courant
+          Object.assign(_account, doc);
+          resolve(_account);
+        } else {
+          resolve(false);
+        }
+      })
+    });
   }
 }
