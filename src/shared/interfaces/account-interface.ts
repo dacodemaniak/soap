@@ -11,6 +11,12 @@ import { FamilyCompositionInterface } from './family-composition-interface';
 export interface AccountInterface {
 
   /**
+   * Identifiant PouchDB
+   * @var string
+   */
+  _id?: string;
+
+  /**
    * Identifiant issu de la base MongoDB
    * @var string
    */

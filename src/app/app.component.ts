@@ -39,17 +39,14 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-        // Initialisation de la base de données locale
-        this.localDataService.init();
-
         // Initialise l'écoute des événements réseau
         this.network.initializeNetworkEvents();
+
 
         this.statusBar.overlaysWebView(false);
         this.statusBar.backgroundColorByHexString('#ed3068');
 
         this.splashScreen.hide();
-
     });
   }
 
@@ -58,8 +55,9 @@ export class MyApp {
    * @param page
    */
   public openPage(page) {
+    console.log('Ouverture de page');
     if (page.component instanceof HomePage) {
-      this.nav.setRoot(page.component);
+        this.nav.setRoot(page.component);
     } else {
       this.nav.push(page.component);
     }

@@ -89,7 +89,7 @@ export class AccountPage {
     this.running = true;
     this.remoteDataService.signup(this.signupForm.value).subscribe((datas: any) => {
       // Met à jour les données locales
-      this.localDataService.setAccount(datas);
+      this.localDataService.addAccount(datas);
       this.running = false;
       this.viewCtrl.dismiss();
       // Affiche le toast de bienvenue

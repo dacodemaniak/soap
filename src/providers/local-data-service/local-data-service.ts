@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 import PouchDB from 'pouchdb';
 import cordovaSqlitePlugin from 'pouchdb-adapter-cordova-sqlite';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 /*
   Generated class for the LocalDataServiceProvider provider.
@@ -30,6 +31,12 @@ export class LocalDataServiceProvider {
    */
   private _account: AccountInterface;
 
+  /**
+   * Etat de la base de données
+   * @var boolean
+   */
+  private _hasDoc: boolean;
+
   constructor(
     public http: HttpClient,
     private platform: Platform
@@ -49,12 +56,24 @@ export class LocalDataServiceProvider {
   /**
    * Initialise les données locales
    */
-  public init(): void {
-    this._getAccount().then((data) => {
-      if (data !== false) {
-        this._account = data;
-      }
-    });
+  public init(): Promise<any> {
+      return new Promise((resolve) => {
+        // Détermine si la base locale contient des documents
+        this.hasDocs().then((status) => {
+          console.log(status ? 'Données présentes' : 'Aucune donnée');
+          this._hasDoc = status;
+          if (this._hasDoc) {
+            this._getAccount().then((data) => {
+              if (data !== false) {
+                this._account = data;
+                this._isAccountCreated = true;
+                console.log('Fin de récupération du compte');
+                resolve(null);
+              }
+            });
+          }
+        });
+      });
   }
 
   /**
@@ -84,9 +103,9 @@ export class LocalDataServiceProvider {
     })
   }
 
-  public setAccount(remoteDatas: any): void {
+  public addAccount(remoteDatas: any): void {
     const _account: AccountInterface = {
-      mongoId: remoteDatas.id,
+      mongoId: remoteDatas._id,
       id: 'account',
       userName: remoteDatas.userName,
       name: remoteDatas.name,
@@ -94,12 +113,36 @@ export class LocalDataServiceProvider {
       email: remoteDatas.email,
       phone: remoteDatas.phone,
       salt: remoteDatas.salt,
-      gender: remoteDatas.gender
+      gender: remoteDatas.gender,
+      birthDate: remoteDatas.birthDate
     }
 
-    this._localDB.put(_account).then(() => {
+    console.log('Données à créer : ' + JSON.stringify(_account));
+    this._localDB.post(_account).then((doc) => {
+      console.log('Donnée ajoutée : \n' + JSON.stringify(doc));
       this._isAccountCreated = true;
       this._account = _account;
+    })
+  }
+
+  /**
+   * Détermine si la base locale contient des documents
+   */
+  private hasDocs(): Promise<boolean> {
+    const db: any = this._localDB;
+    return new Promise((resolve) => {
+      db.allDocs({include_docs: true}).then((results) => {
+        if (results) {
+          if (results.rows.length) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+
+        } else {
+          resolve(false);
+        }
+      })
     })
   }
 
@@ -107,17 +150,48 @@ export class LocalDataServiceProvider {
    * Récupère un compte de la base locale
    */
   private _getAccount(): Promise<any> {
-    let _account: AccountInterface;
+    let _account: AccountInterface = {
+      _id: '',
+      id: 'account',
+      mongoId: '',
+      userName: '',
+      name: '',
+      forname: '',
+      gender: 0,
+      birthDate: null,
+      phone: '',
+      email: '',
+      salt: ''
+    };
+
+    const _db = this._localDB;
+
+    let _fetched: boolean = false;
 
     return new Promise((resolve) => {
-      this._localDB.get(
-        'account',
+     _db.allDocs(
         {include_docs: true}
-      ).then((doc) => {
-        if (doc) {
-          this._isAccountCreated = true;
-          // Hydrate le compte courant
-          Object.assign(_account, doc);
+      ).then((results) => {
+        for (let row of results.rows) {
+          let doc = row.doc;
+          if (doc.id === 'account') {
+            _account.id = doc.id;
+            _account._id = doc._id;
+            _account.mongoId = doc.mongoId;
+            _account.userName = doc.userName;
+            _account.name = doc.name;
+            _account.forname = doc.forname;
+            _account.email = doc.email;
+            _account.phone = doc.phone;
+            _account.gender = doc.gender;
+            _account.birthDate = doc.birthDate;
+            _account.salt = doc.salt;
+
+            _fetched = true;
+            //_db.remove(doc);
+          }
+        }
+        if (_fetched) {
           resolve(_account);
         } else {
           resolve(false);

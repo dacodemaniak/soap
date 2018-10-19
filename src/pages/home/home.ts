@@ -24,10 +24,21 @@ export class HomePage {
 
   }
 
+  public ionViewCanEnter() {
+    const dataService = this.localDataService;
+    return new Promise((resolve) => {
+      dataService.init().then(() => {
+        console.log('Récupération du compte terminée');
+        resolve(true);
+      });
+    })
+  }
+
   /**
    * Après le chargement de la page...
    */
   public ionViewDidLoad(){
+    console.log('Home : Vérification du compte local');
     if (!this.localDataService.hasAccount()) {
       // Affichage du dialogue de choix : Signin / Signup
       const SignAlert = this.alertCtrl.create({
