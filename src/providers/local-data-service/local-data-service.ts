@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
 import cordovaSqlitePlugin from 'pouchdb-adapter-cordova-sqlite';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import * as moment from 'moment';
 
 /*
   Generated class for the LocalDataServiceProvider provider.
@@ -60,14 +61,12 @@ export class LocalDataServiceProvider {
       return new Promise((resolve) => {
         // Détermine si la base locale contient des documents
         this.hasDocs().then((status) => {
-          console.log(status ? 'Données présentes' : 'Aucune donnée');
           this._hasDoc = status;
           if (this._hasDoc) {
             this._getAccount().then((data) => {
               if (data !== false) {
                 this._account = data;
                 this._isAccountCreated = true;
-                console.log('Fin de récupération du compte');
                 resolve(null);
               }
             });
@@ -114,7 +113,8 @@ export class LocalDataServiceProvider {
       phone: remoteDatas.phone,
       salt: remoteDatas.salt,
       gender: remoteDatas.gender,
-      birthDate: remoteDatas.birthDate
+      birthDate: remoteDatas.birthDate,
+      lastLogin: moment()
     }
 
     console.log('Données à créer : ' + JSON.stringify(_account));

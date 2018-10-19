@@ -56,5 +56,9 @@
       "signin": "Créez votre compte",
       "decline": "Non merci, pas maintenant"
     }
+  },
+  "myAccount": {
+    "noAccount": "Créez un compte SoAppli! avant de pouvoir accéder à ce module.",
+    "hello": "Hello"
   }
 }

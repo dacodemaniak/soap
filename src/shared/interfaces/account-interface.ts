@@ -77,4 +77,9 @@ export interface AccountInterface {
    */
   credits?: number;
 
+  /**
+   * Dernière connexion utilisateur
+   */
+  lastLogin?: moment.Moment;
+
 }

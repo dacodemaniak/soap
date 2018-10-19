@@ -12,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { AccountPage } from './../pages/account/account';
 
+import { MyAccountPage } from './../pages/my-account/my-account';
 /**
  * Modules natifs IONIC
  */
@@ -20,12 +21,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Toast } from '@ionic-native/toast';
 import { Network } from '@ionic-native/network';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
+
 
 import { BarcodeServiceProvider } from '../providers/barcode-service/barcode-service';
 import { LocalDataServiceProvider } from '../providers/local-data-service/local-data-service';
 import { RemoteDataServiceProvider } from '../providers/remote-data-service/remote-data-service';
 import { NetworkProvider } from '../providers/network/network';
 import { UserNameValidator } from './../shared/validators/username.validator';
+import { MyAccountPageModule } from '../pages/my-account/my-account.module';
+import { ToSpeechProvider } from '../providers/to-speech/to-speech';
 
 export function exportTranslateStaticLoader(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -68,6 +73,7 @@ export function appInitializerFactory(
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MyAccountPageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -90,6 +96,7 @@ export function appInitializerFactory(
   providers: [
     StatusBar,
     SplashScreen,
+    TextToSpeech,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
@@ -107,7 +114,8 @@ export function appInitializerFactory(
     LocalDataServiceProvider,
     RemoteDataServiceProvider,
     NetworkProvider,
-    UserNameValidator
+    UserNameValidator,
+    ToSpeechProvider
   ]
 })
 
