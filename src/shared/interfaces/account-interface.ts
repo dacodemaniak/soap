@@ -82,4 +82,9 @@ export interface AccountInterface {
    */
   lastLogin?: moment.Moment;
 
+  /**
+   * Token permettant le partage du stock avec d'autres personnes
+   */
+  token?: string;
+
 }

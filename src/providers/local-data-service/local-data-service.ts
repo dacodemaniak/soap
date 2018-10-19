@@ -96,7 +96,8 @@ export class LocalDataServiceProvider {
           email: "",
           phone: "",
           salt: "",
-          gender: 0
+          gender: 0,
+          credits: 0
         });
       }
     })
@@ -114,7 +115,8 @@ export class LocalDataServiceProvider {
       salt: remoteDatas.salt,
       gender: remoteDatas.gender,
       birthDate: remoteDatas.birthDate,
-      lastLogin: moment()
+      lastLogin: moment(),
+      credits: 1
     }
 
     console.log('Données à créer : ' + JSON.stringify(_account));
@@ -122,6 +124,19 @@ export class LocalDataServiceProvider {
       console.log('Donnée ajoutée : \n' + JSON.stringify(doc));
       this._isAccountCreated = true;
       this._account = _account;
+    })
+  }
+
+  /**
+   * Met à jour le compte localement
+   */
+  public updateAccount(account: AccountInterface): Promise<any> {
+    const _db = this._localDB;
+
+    return new Promise((resolve) => {
+      _db.put(account).then(() => {
+        resolve(true);
+      })
     })
   }
 
@@ -161,7 +176,8 @@ export class LocalDataServiceProvider {
       birthDate: null,
       phone: '',
       email: '',
-      salt: ''
+      salt: '',
+      credits: 0
     };
 
     const _db = this._localDB;
@@ -186,9 +202,10 @@ export class LocalDataServiceProvider {
             _account.gender = doc.gender;
             _account.birthDate = doc.birthDate;
             _account.salt = doc.salt;
+            _account.credits = doc.credits ? doc.credits + 1 : 1
 
             _fetched = true;
-            //_db.remove(doc);
+            _db.put(_account);
           }
         }
         if (_fetched) {

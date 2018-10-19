@@ -59,6 +59,16 @@
   },
   "myAccount": {
     "noAccount": "Créez un compte SoAppli! avant de pouvoir accéder à ce module.",
-    "hello": "Hello"
+    "hello": "Hello",
+    "shareStock": {
+      "title" : "Partager mon stock...",
+      "abstract": "Spécifiez l'adresse e-mail et le téléphone de la personne avec qui vous voulez partager votre stock",
+      "tokenMsg": "Communiquez ce jeton aux personnes avec qui vous voulez partager votre stock",
+      "tokenLabel": "Jeton de partage"
+    },
+    "changePassword": "Changer de mot de passe",
+    "forms": {
+      "changePassword": "Changer"
+    }
   }
 }

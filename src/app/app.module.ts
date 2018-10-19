@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MomentModule } from 'angular2-moment';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
@@ -23,13 +24,19 @@ import { Toast } from '@ionic-native/toast';
 import { Network } from '@ionic-native/network';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
+/**
+ * Modules personnalisés
+ */
+import { MyAccountPageModule } from '../pages/my-account/my-account.module';
 
+/**
+ * Services internes
+ */
 import { BarcodeServiceProvider } from '../providers/barcode-service/barcode-service';
 import { LocalDataServiceProvider } from '../providers/local-data-service/local-data-service';
 import { RemoteDataServiceProvider } from '../providers/remote-data-service/remote-data-service';
 import { NetworkProvider } from '../providers/network/network';
 import { UserNameValidator } from './../shared/validators/username.validator';
-import { MyAccountPageModule } from '../pages/my-account/my-account.module';
 import { ToSpeechProvider } from '../providers/to-speech/to-speech';
 
 export function exportTranslateStaticLoader(http: HttpClient) {
@@ -74,6 +81,7 @@ export function appInitializerFactory(
     HttpClientModule,
     ReactiveFormsModule,
     MyAccountPageModule,
+    MomentModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

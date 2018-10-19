@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>my-account</ion-title>
+    <ion-title>{{ account.forname }} {{ account.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +15,79 @@
 
 <ion-content padding>
 
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="trophy"></ion-icon> {{ account.credits }} points
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h3>{{ 'myAccount.shareStock.title' | translate }}</h3>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-note>
+        {{ 'myAccount.shareStock.abstract' | translate }}
+      </ion-note>
+      <!-- Intégrer le formulaire pour la saisie des informations de partage, si pas encore de token -->
+      <ion-item *ngIf="hasToken">
+        {{ 'myAccount.shareStock.tokenLabel' | translate }} : {{ account.token }}
+        <ion-note>{{ 'myAccount.shareStock.tokenMsg' | translate }}</ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Changement de mot de passe -->
+  <ion-card>
+      <ion-card-header>
+        <h3>{{ 'myAccount.changePassword' | translate }}</h3>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Formulaire pour le changement de mot de passe -->
+        <form [formGroup]="changePassword" (submit)="onChangePassword()">
+            <ion-item>
+                <ion-label floating color="primary">{{ 'account.forms.password' | translate }}</ion-label>
+                <ion-input type="password" formControlName="password"></ion-input>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validationMessages.password">
+                  <div class="error-message" *ngIf="password.hasError(validation.type) && (password.dirty || password.touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+                </div>
+
+                <ion-item>
+                  <ion-label floating color="primary">{{ 'account.forms.confirm' | translate }}</ion-label>
+                  <ion-input type="password" formControlName="confirmPassword"></ion-input>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validationMessages.confirmPassword">
+                    <div class="error-message" *ngIf="confirmPassword.hasError(validation.type) && (confirmPassword.dirty || confirmPassword.touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              <!-- These validations are for the form group -->
+              <div class="validation-errors">
+                <ng-container>
+                  <div class="error-message" *ngIf="changePassword.hasError('areEqual')">
+                    {{ 'account.confirmPassword.areEqual' | translate }}
+                  </div>
+                </ng-container>
+              </div>
+
+              <ion-item>
+                  <button ion-button block color="secondary"
+                  [disabled]="changePassword.invalid">
+                  {{ 'myAccount.forms.changePassword' | translate }}
+              </button>
+              </ion-item>
+        </form>
+      </ion-card-content>
+    </ion-card>
 </ion-content>

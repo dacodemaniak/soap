@@ -26,8 +26,19 @@ export class RemoteDataServiceProvider {
    */
   public signup(formDatas: any) {
     return this.http.post(
-      Constants._API_ROOT + 'api/v2/account',
+      Constants._API_ROOT + 'api/v2/account/',
       formDatas
+    );
+  }
+
+  /**
+   * Met à jour le compte dans la base MongoDB
+   * @param formDatas Données du formulaire de changement de mot de passe
+   */
+  public updatePassword(formDatas: any, mongoId: string): Observable<any> {
+    return this.http.put<any>(
+      Constants._API_ROOT + 'api/v2/account/' + mongoId,
+      {password: formDatas.password}
     );
   }
 }
