@@ -47,7 +47,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <!-- Formulaire pour le changement de mot de passe -->
+        <!-- Formulaire pour le changement de mot de passe  -->
         <form [formGroup]="changePassword" (submit)="onChangePassword()">
             <ion-item>
                 <ion-label floating color="primary">{{ 'account.forms.password' | translate }}</ion-label>
@@ -72,7 +72,7 @@
                     </div>
                   </ng-container>
                 </div>
-              <!-- These validations are for the form group -->
+
               <div class="validation-errors">
                 <ng-container>
                   <div class="error-message" *ngIf="changePassword.hasError('areEqual')">
@@ -82,12 +82,51 @@
               </div>
 
               <ion-item>
-                  <button ion-button block color="secondary"
+                <button ion-button block color="secondary"
                   [disabled]="changePassword.invalid">
                   {{ 'myAccount.forms.changePassword' | translate }}
-              </button>
+                </button>
               </ion-item>
         </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Définition des préférences -->
+    <ion-card>
+      <ion-card-header>
+        <h3>{{ 'myAccount.settings' | translate }}</h3>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <form [formGroup]="changeSettings" (submit)="onChangeSettings()">
+          <ion-item>
+            <ion-label>{{ 'myAccount.forms.vocalModeLabel' | translate}}</ion-label>
+            <ion-toggle formControlName="useVocalMode" checked="account.settings.useVocalMode"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label floating color="primary">{{ 'myAccount.forms.purchaseRadiusLabel' | translate }}</ion-label>
+            <ion-range pin="true" step="5" min="{{ purchaseBounds.lower }}" max="{{ purchaseBounds.higher }}" formControlName="maxPurchaseRadius" color="secondary">
+              <ion-label range-left>{{ purchaseBounds.lower }}</ion-label>
+              <ion-label range-right>{{ purchaseBounds.higher }}</ion-label>
+            </ion-range>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label>{{ 'myAccount.forms.notificationTimeLabel' | translate }}</ion-label>
+            <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" formControlName="notificationTime"></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+              <button ion-button block color="secondary"
+                [disabled]="changeSettings.invalid">
+                {{ 'myAccount.forms.changeSettings' | translate }}
+              </button>
+          </ion-item>
+        </form>
+
       </ion-card-content>
     </ion-card>
 </ion-content>

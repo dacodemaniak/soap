@@ -7,6 +7,7 @@
 import * as moment from 'moment';
 
 import { FamilyCompositionInterface } from './family-composition-interface';
+import { SettingsInterface } from './settings-interface';
 
 export interface AccountInterface {
 
@@ -86,5 +87,10 @@ export interface AccountInterface {
    * Token permettant le partage du stock avec d'autres personnes
    */
   token?: string;
+
+  /**
+   * Paramètres spécifiques de l'utilisateur
+   */
+  settings?: SettingsInterface;
 
 }

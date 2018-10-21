@@ -7,6 +7,7 @@ import PouchDB from 'pouchdb';
 import cordovaSqlitePlugin from 'pouchdb-adapter-cordova-sqlite';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 import * as moment from 'moment';
+import { SettingsInterface } from '../../shared/interfaces/settings-interface';
 
 /*
   Generated class for the LocalDataServiceProvider provider.
@@ -58,6 +59,7 @@ export class LocalDataServiceProvider {
    * Initialise les données locales
    */
   public init(): Promise<any> {
+
       return new Promise((resolve) => {
         // Détermine si la base locale contient des documents
         this.hasDocs().then((status) => {
@@ -97,7 +99,13 @@ export class LocalDataServiceProvider {
           phone: "",
           salt: "",
           gender: 0,
-          credits: 0
+          credits: 1,
+          token: '',
+          settings: {
+            useVocalMode: true,
+            notificationTime: moment().set('hour', 8).set('minute', 0),
+            maxPurchaseRadius: 25
+          }
         });
       }
     })
@@ -116,8 +124,13 @@ export class LocalDataServiceProvider {
       gender: remoteDatas.gender,
       birthDate: remoteDatas.birthDate,
       lastLogin: moment(),
-      credits: 1
-    }
+      credits: 1,
+      settings : {
+        useVocalMode: true,
+        notificationTime: moment().set('hour', 8).set('minute', 0),
+        maxPurchaseRadius: 25
+      }
+    };
 
     console.log('Données à créer : ' + JSON.stringify(_account));
     this._localDB.post(_account).then((doc) => {
@@ -138,6 +151,25 @@ export class LocalDataServiceProvider {
         resolve(true);
       })
     })
+  }
+
+  /**
+   * Met à jour les préférences utilisateur
+   * @param settings Données de préférences utilisateur
+   */
+  public updateSettings(settings: SettingsInterface) : Promise<any> {
+    const _db = this._localDB;
+
+    return new Promise((resolve) => {
+      _db.get(this._account._id, {include_docs: true}).then((doc) => {
+        doc.settings = settings;
+        _db.put(doc).then(() => {
+          // Mettre à jour les paramètres de notification le cas échéant
+
+          resolve(null);
+        });
+      });
+    });
   }
 
   /**
@@ -177,7 +209,13 @@ export class LocalDataServiceProvider {
       phone: '',
       email: '',
       salt: '',
-      credits: 0
+      credits: 0,
+      token: '',
+      settings: {
+        useVocalMode: true,
+        maxPurchaseRadius: 25,
+        notificationTime:moment().set('hour', 8).set('minute', 0)
+      }
     };
 
     const _db = this._localDB;
@@ -202,10 +240,35 @@ export class LocalDataServiceProvider {
             _account.gender = doc.gender;
             _account.birthDate = doc.birthDate;
             _account.salt = doc.salt;
-            _account.credits = doc.credits ? doc.credits + 1 : 1
+            if (doc.hasOwnProperty('credits')) {
+              doc.credits = doc.credits + 1;
+            } else {
+              doc.credits = 1;
+            }
+            _account.credits = doc.credits;
+
+            if (!doc.hasOwnProperty('token')) {
+              doc.token = '';
+              _account.token = '';
+            }
+
+            if (!doc.hasOwnProperty('settings')) {
+              _account.settings.useVocalMode = true;
+              _account.settings.notificationTime = moment().set('hour', 8).set('minute', 0);
+              _account.settings.maxPurchaseRadius = 25;
+              doc.settings = _account.settings;
+            } else {
+              _account.settings = doc.settings;
+            }
 
             _fetched = true;
-            _db.put(_account);
+
+            // Mise à jour du compte
+            _db.put(doc).then((doc) => {
+              console.log('Compte mis à jour :\n' + JSON.stringify(doc));
+            });
+
+
           }
         }
         if (_fetched) {

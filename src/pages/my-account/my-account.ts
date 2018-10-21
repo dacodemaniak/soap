@@ -1,7 +1,9 @@
 
+
 import { HomePage } from './../home/home';
 
 import { AccountInterface } from './../../shared/interfaces/account-interface';
+import { SettingsInterface } from './../../shared/interfaces/settings-interface';
 import { RemoteDataServiceProvider } from './../../providers/remote-data-service/remote-data-service';
 import { LocalDataServiceProvider } from './../../providers/local-data-service/local-data-service';
 import { Component } from '@angular/core';
@@ -39,7 +41,23 @@ export class MyAccountPage {
    */
   public changePassword: FormGroup;
 
+  /**
+   * Formulaire de gestion des préférences
+   */
+  public changeSettings: FormGroup;
+
+  /**
+   * Stockage des messages de contrôle des formulaires
+   */
   public validationMessages: any;
+
+  /**
+   * Limites basses et hautes pour le rayon de récupération des prix
+   */
+  public purchaseBounds: any = {
+    "lower": 0,
+    "higher": 50
+  }
 
   constructor(
     public navCtrl: NavController,
@@ -67,7 +85,8 @@ export class MyAccountPage {
         };
 
         this._doPasswordForm();
-      })
+        this._doSettingsForm();
+      });
   }
 
   /**
@@ -75,6 +94,9 @@ export class MyAccountPage {
    */
   public get password() { return this.changePassword.controls.password }
   public get confirmPassword() { return this.changePassword.controls.confirmPassword }
+  public get useVocalMode() { return this.changeSettings.controls.useVocalMode }
+  public get maxPurchaseRadius() { return this.changeSettings.controls.maxPurchaseRadius }
+  public get notificationTime() { return this.changeSettings.controls.notificationTime }
 
   /**
    * Détermine si on peut accéder à la vue courante
@@ -100,14 +122,16 @@ export class MyAccountPage {
    * Après chargement de la page...
    */
   public ionViewDidLoad() {
-    this.textToSpeech.sayHello(
-      this.account.forname
-    );
+    if (this.account.settings.useVocalMode) {
+      this.textToSpeech.sayHello(
+        this.account.forname
+      );
+    }
   }
 
   /**
    * Procède au changement de mot de passe
-   */
+  */
   public onChangePassword() {
     this.remoteDataService.updatePassword(this.changePassword.value, this.account.mongoId).subscribe((account) => {
       // Met à jour la donnée localement
@@ -124,9 +148,26 @@ export class MyAccountPage {
     })
   }
 
+
+  /**
+   * Mise à jour des préférences utilisateur
+   */
+  public onChangeSettings() {
+    console.info('Préférences : \n' + JSON.stringify(this.changeSettings.value));
+    this.localDataService.updateSettings(this.changeSettings.value).then(() => {
+      this.toast.show(
+        this.translateService.instant('myAccount.settingsUpdateSuccess'),
+        '3000',
+        'center'
+      ).subscribe((toast) => {
+        // NOOP
+      });
+    });
+  }
+
   /**
    * Définit le formulaire de changement de mot de passe
-   */
+  */
   private _doPasswordForm() {
     this.changePassword = this.formBuilder.group({
       password: [
@@ -151,4 +192,27 @@ export class MyAccountPage {
     );
   }
 
+
+  private _doSettingsForm() {
+
+    // Récupère l'heure des notifications
+
+    this.changeSettings = this.formBuilder.group({
+      useVocalMode: [
+        this.account.settings.useVocalMode
+      ],
+      notificationTime: [
+        this.account.settings.notificationTime
+      ],
+      maxPurchaseRadius: [
+        this.account.settings.maxPurchaseRadius,
+        [
+          Validators.min(this.purchaseBounds.lower),
+          Validators.max(this.purchaseBounds.higher)
+        ]
+      ]
+    });
+
+    console.info('changeSettings : ' + typeof this.changeSettings);
+  }
 }

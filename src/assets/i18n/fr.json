@@ -60,6 +60,8 @@
   "myAccount": {
     "noAccount": "Créez un compte SoAppli! avant de pouvoir accéder à ce module.",
     "hello": "Hello",
+    "passwordUpdateSuccess": "Votre mot de passe a bien été mis à jour",
+    "settingsUpdateSuccess": "Vos préférences ont bien été mises à jour",
     "shareStock": {
       "title" : "Partager mon stock...",
       "abstract": "Spécifiez l'adresse e-mail et le téléphone de la personne avec qui vous voulez partager votre stock",
@@ -67,8 +69,13 @@
       "tokenLabel": "Jeton de partage"
     },
     "changePassword": "Changer de mot de passe",
+    "settings": "Préférences",
     "forms": {
-      "changePassword": "Changer"
+      "changePassword": "Changer",
+      "changeSettings": "Mettre à jour",
+      "purchaseRadiusLabel": "Récupérer les prix dans un rayon de",
+      "vocalModeLabel": "Utiliser le mode vocal",
+      "notificationTimeLabel": "Heure de réception des notifications locales"
     }
   }
 }
