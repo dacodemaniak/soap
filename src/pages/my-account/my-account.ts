@@ -154,15 +154,17 @@ export class MyAccountPage {
    */
   public onChangeSettings() {
     console.info('Préférences : \n' + JSON.stringify(this.changeSettings.value));
-    this.localDataService.updateSettings(this.changeSettings.value).then(() => {
-      this.toast.show(
-        this.translateService.instant('myAccount.settingsUpdateSuccess'),
-        '3000',
-        'center'
-      ).subscribe((toast) => {
-        // NOOP
+    //this.remoteDataService.updateSettings(this.changeSettings.value, this.account.mongoId).subscribe((data) => {
+      this.localDataService.updateSettings(this.changeSettings.value).then(() => {
+        this.toast.show(
+          this.translateService.instant('myAccount.settingsUpdateSuccess'),
+          '3000',
+          'center'
+        ).subscribe((toast) => {
+          // NOOP
+        });
       });
-    });
+    //});
   }
 
   /**

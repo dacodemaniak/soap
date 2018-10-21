@@ -1,3 +1,4 @@
+import { SettingsInterface } from './../../shared/interfaces/settings-interface';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -39,6 +40,21 @@ export class RemoteDataServiceProvider {
     return this.http.put<any>(
       Constants._API_ROOT + 'api/v2/account/' + mongoId,
       {password: formDatas.password}
+    );
+  }
+
+  /**
+   * Met à jour les préférences dans la base MongoDB
+   * @param formDatas Préférences utilisateurs
+   * @param mongoId Identifiant Mongo
+   */
+  public updateSettings(formDatas: SettingsInterface, mongoId: string): Observable<any> {
+    let settings: any = {
+      settings: formDatas
+    }
+    return this.http.put<any>(
+      Constants._API_ROOT + 'api/v2/account/' + mongoId,
+      settings
     );
   }
 }
