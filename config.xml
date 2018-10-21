@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>soAppli_v3</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget id="com.businessstrategypartners.soappli" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SoAppli</name>
+    <description>Gérez vos stocks alimentaires en toute simplicité, évitez le gaspillage et faites des économies. Consommez mieux en partageant vos informations avec les autres utilisateurs de So Appli</description>
+    <author email="hello@soappli.com" href="https://www.soappli.com">SoAppli</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -21,6 +21,11 @@
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <config-file target="AndroidManifest.xml">
+          <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+          <uses-feature android:name="android.hardware.location.gps" android:required="true"/>
+        </config-file>
+        <application android:allowBackup="false"/>
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
