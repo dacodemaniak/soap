@@ -38,6 +38,7 @@ import { RemoteDataServiceProvider } from '../providers/remote-data-service/remo
 import { NetworkProvider } from '../providers/network/network';
 import { UserNameValidator } from './../shared/validators/username.validator';
 import { ToSpeechProvider } from '../providers/to-speech/to-speech';
+import { SoLocalNoticationsProvider } from '../providers/so-local-notications/so-local-notications';
 
 export function exportTranslateStaticLoader(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -123,7 +124,8 @@ export function appInitializerFactory(
     RemoteDataServiceProvider,
     NetworkProvider,
     UserNameValidator,
-    ToSpeechProvider
+    ToSpeechProvider,
+    SoLocalNoticationsProvider
   ]
 })
 

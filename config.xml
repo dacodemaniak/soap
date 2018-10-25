@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.businessstrategypartners.soappli" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.businessstrategypartners.soappli" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SoAppli</name>
     <description>Gérez vos stocks alimentaires en toute simplicité, évitez le gaspillage et faites des économies. Consommez mieux en partageant vos informations avec les autres utilisateurs de So Appli</description>
     <author email="hello@soappli.com" href="https://www.soappli.com">SoAppli</author>
@@ -21,11 +21,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <config-file target="AndroidManifest.xml">
-          <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-          <uses-feature android:name="android.hardware.location.gps" android:required="true"/>
-        </config-file>
-        <application android:allowBackup="false"/>
+        <application android:allowBackup="false" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -92,5 +88,6 @@
     <plugin name="cordova-plugin-x-toast" spec="^2.7.0" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-tts" spec="^0.2.3" />
+    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
     <engine name="android" spec="7.0.0" />
 </widget>

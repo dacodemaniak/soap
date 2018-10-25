@@ -77,5 +77,11 @@
       "vocalModeLabel": "Utiliser le mode vocal",
       "notificationTimeLabel": "Heure de réception des notifications locales"
     }
+  },
+  "localNotification": {
+    "noAccount": {
+      "title": "Pas encore de compte ?",
+      "text": "Créez un compte sur SoAppli! pour disposer de votre stock sur tous vos appareils"
+    }
   }
 }
